@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "413908352592",
+    "project_id": "fir-with-ios-50934",
+    "storage_bucket": "fir-with-ios-50934.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413908352592:android:9af2b15928e883afc41b55",
+        "android_client_info": {
+          "package_name": "com.nathan630pm.androidtodolist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "413908352592-ockl9ab060tkcsefuablfq5ko4t08983.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_FJt32wJozzbwhTWiqdypGESD9_TIPvM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "413908352592-ockl9ab060tkcsefuablfq5ko4t08983.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "413908352592-p2vlldo1qne7bqqah9cu3cututvq7ob7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Nathan630pm.TODOFirestore"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413908352592:android:59a742e253bf42cac41b55",
+        "android_client_info": {
+          "package_name": "com.nathan630pm.nk_final_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "413908352592-ockl9ab060tkcsefuablfq5ko4t08983.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_FJt32wJozzbwhTWiqdypGESD9_TIPvM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "413908352592-ockl9ab060tkcsefuablfq5ko4t08983.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "413908352592-p2vlldo1qne7bqqah9cu3cututvq7ob7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Nathan630pm.TODOFirestore"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413908352592:android:c90e8a2ca9263455c41b55",
+        "android_client_info": {
+          "package_name": "com.nathan630pm.todoandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "413908352592-ockl9ab060tkcsefuablfq5ko4t08983.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_FJt32wJozzbwhTWiqdypGESD9_TIPvM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "413908352592-ockl9ab060tkcsefuablfq5ko4t08983.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "413908352592-p2vlldo1qne7bqqah9cu3cututvq7ob7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Nathan630pm.TODOFirestore"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
