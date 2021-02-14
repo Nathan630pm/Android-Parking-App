@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.nathan630pm.nk_final_project.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profileFragment_to_addParkingFragment2"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/addParkingFragment2"
         android:name="com.nathan630pm.nk_final_project.addParkingFragment"
-        android:label="fragment_add_parking2"
+        android:label="Add Parking"
         tools:layout="@layout/fragment_add_parking" >
         <action
             android:id="@+id/action_addParkingFragment2_to_viewParkingFragment2"
@@ -26,6 +26,11 @@
     <fragment
         android:id="@+id/viewParkingFragment2"
         android:name="com.nathan630pm.nk_final_project.viewParkingFragment"
-        android:label="fragment_view_parking"
+        android:label="View Parking"
         tools:layout="@layout/fragment_view_parking" />
+    <fragment
+        android:id="@+id/placeholderFragment"
+        android:name="com.nathan630pm.nk_final_project.PlaceholderFragment"
+        android:label="fragment_placeholder"
+        tools:layout="@layout/fragment_placeholder" />
 </navigation>

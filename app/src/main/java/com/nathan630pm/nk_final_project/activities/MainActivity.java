@@ -2,6 +2,7 @@ package com.nathan630pm.nk_final_project.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         nav = Navigation.findNavController(this, R.id.fragment);
 
-        appBarConfiguration = new AppBarConfiguration.Builder(R.id.profileFragment, R.id.addParkingFragment, R.id.viewParkingFragment).setDrawerLayout(drawerLayout).build();
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.profileFragment, R.id.addParkingFragment2, R.id.viewParkingFragment2).setDrawerLayout(drawerLayout).build();
 
         NavigationUI.setupWithNavController(navigationView, nav);
         NavigationUI.setupWithNavController(bottomNavigationView, nav);
@@ -55,13 +56,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if(item.getItemId() != R.id.placeholderFragment) {
-////            drawerLayout.openDrawer(drawerLayout);
-//        }
-//        return NavigationUI.onNavDestinationSelected(item, nav) || super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        drawerLayout.openDrawer(GravityCompat.START);
+        return NavigationUI.onNavDestinationSelected(item, nav) || super.onOptionsItemSelected(item);
+    }
 
     @Override
     public boolean onNavigateUp() {

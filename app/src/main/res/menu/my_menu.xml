@@ -7,10 +7,10 @@
         />
     <item android:title="Add Parking"
         android:icon="@drawable/ic_add_parking"
-        android:id="@+id/addParkingFragment"
+        android:id="@+id/addParkingFragment2"
         />
     <item android:title="View Parking"
         android:icon="@drawable/ic_view_parking"
-        android:id="@+id/viewParkingFragment"
+        android:id="@+id/viewParkingFragment2"
         />
 </menu>
