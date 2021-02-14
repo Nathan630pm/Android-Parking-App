@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.nathan630pm.nk_final_project.R;
 import com.nathan630pm.nk_final_project.models.User;
@@ -55,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         //save data to database
                         this.saveUserToDB();
                         //go to main activity
-                        this.goToMain();
+                        this.validateLogin();
                     }
                 }
                 default: break;
@@ -77,6 +78,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         this.finish();
         Intent mainIntent = new Intent(this, MainActivity.class);
         startActivity(mainIntent);
+    }
+
+    private void validateLogin() {
+        String email = this.ETEmail.getText().toString();
+        String password = this.ETPassword.getText().toString();
+
+        //ask the view model to validate user
+        Boolean didComplete = this.userViewModel.validateUser(email.toLowerCase(), password);
+
+        if(!didComplete){
+            Toast.makeText(getApplicationContext(), "Make sure to enter all fields!", Toast.LENGTH_LONG).show();
+        }
+        else {
+            goToMain();
+        }
+
     }
 
     private Boolean validateData(){

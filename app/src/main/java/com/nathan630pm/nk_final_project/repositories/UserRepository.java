@@ -10,10 +10,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -25,18 +28,27 @@ public class UserRepository {
     private final FirebaseFirestore db;
     private final FirebaseAuth mAuth;
 
+    private User tempUser;
+
     public MutableLiveData<String> signInStatus = new MutableLiveData<String>();
     public MutableLiveData<String> loggedInUserID = new MutableLiveData<String>();
+    public MutableLiveData<User> userObject = new MutableLiveData<User>();
+
+    private String userID;
 
     public UserRepository() {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        tempUser = new User();
     }
 
     public void logout(){
-        loggedInUserID = null;
+        loggedInUserID.setValue("");
+
 
     }
+
+
 
     public void addUser(String email, String password, User user) {
         try {
@@ -95,6 +107,9 @@ public class UserRepository {
                                                 if(task.isSuccessful()){
                                                     signInStatus.postValue("SUCCESS");
                                                     loggedInUserID.postValue(task.getResult().getDocuments().get(0).getId());
+                                                    userID = task.getResult().getDocuments().get(0).getId();
+                                                    getUserObject();
+
                                                     Log.d(TAG, "Logged in user document ID: " + loggedInUserID);
                                                 }
                                                 else {
@@ -144,6 +159,114 @@ public class UserRepository {
             Log.e(TAG, ex.getLocalizedMessage());
             signInStatus.postValue("FAILURE");
         }
+    }
+
+
+    public void makeSureInfoUpToDate() {
+        db.collection(COLLECTION_NAME)
+                .document(userID)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        tempUser.setName(documentSnapshot.getString("name"));
+                        tempUser.setEmail(documentSnapshot.getString("email"));
+                        tempUser.setCarPlateNumber(documentSnapshot.getString("carPlateNumber"));
+                        tempUser.setContactNumber(documentSnapshot.getString("contactNumber"));
+                        userObject.setValue(tempUser);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "ERROR getting collection/document: " + e.getLocalizedMessage());
+                        Log.e(TAG, e.toString());
+                    }
+                });
+    }
+
+
+    public User getUserObject(){
+
+        Log.e(TAG, "USER ID: " +  userID);
+
+        db.collection(COLLECTION_NAME)
+                .document(userID)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        tempUser.setName(documentSnapshot.getString("name"));
+                        tempUser.setEmail(documentSnapshot.getString("email"));
+                        tempUser.setCarPlateNumber(documentSnapshot.getString("carPlateNumber"));
+                        tempUser.setContactNumber(documentSnapshot.getString("contactNumber"));
+                        userObject.setValue(tempUser);
+                        Log.e(TAG, "Success getting user info");
+                        Log.e(TAG, documentSnapshot.toString());
+                        Log.e(TAG, "USER NAME: " +  documentSnapshot.getString("name"));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "ERROR getting collection/document: " + e.getLocalizedMessage());
+                        Log.e(TAG, e.toString());
+                    }
+                });
+
+        Log.e(TAG, "RETURNING USER: " + tempUser.getName());
+
+        return tempUser;
+    }
+
+    public User returnUserObject(){
+        return tempUser;
+    }
+
+    public void updateUser(String name, String email, String phone, String plateNo){
+        User updateUser = new User(name, email, phone, plateNo);
+
+        db.collection(COLLECTION_NAME)
+                .document(loggedInUserID.getValue())
+                .update("name", name, "email", email, "contactNumber", phone, "carPlateNumber", plateNo)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+
+
+    }
+
+    public void deleteUser(String email, String password) {
+        final FirebaseUser userToDelete = mAuth.getCurrentUser();
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(email, password);
+        userToDelete.reauthenticate(credential)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        userToDelete.delete()
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d(TAG, "User account deleted.");
+                                            logout();
+                                        }
+                                    }
+                                });
+
+                    }
+                });
     }
 
     public void checkForActiveUser() {

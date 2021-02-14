@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String password = this.ETPassword.getText().toString();
 
         //ask the view model to validate user
-        Boolean didComplete = this.userViewModel.validateUser(email, password);
+        Boolean didComplete = this.userViewModel.validateUser(email.toLowerCase(), password);
 
         if(!didComplete){
             Toast.makeText(getApplicationContext(), "Make sure to enter all fields!", Toast.LENGTH_LONG).show();

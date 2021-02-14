@@ -2,6 +2,7 @@ package com.nathan630pm.nk_final_project.viewmodels;
 
 import android.widget.Toast;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.nathan630pm.nk_final_project.models.User;
@@ -11,6 +12,8 @@ public class UserViewModel  extends ViewModel {
     private static final String TAG = "UserViewModel";
     private static final UserViewModel ourInstance = new UserViewModel();
     private final UserRepository userRepository = new UserRepository();
+
+    public MutableLiveData<User> userObject = new MutableLiveData<User>();
 
 
     public static UserViewModel getInstance() {return ourInstance;}
@@ -37,6 +40,18 @@ public class UserViewModel  extends ViewModel {
         else {
             return false;
         }
+    }
+
+    public User getUserObject() {
+        return userRepository.returnUserObject();
+    }
+
+    public void updateUser(String name, String email, String phone, String plateNo) {
+        userRepository.updateUser(name, email, phone, plateNo);
+    }
+
+    public void deleteUser(String email, String password){
+        userRepository.deleteUser(email, password);
     }
 
 }

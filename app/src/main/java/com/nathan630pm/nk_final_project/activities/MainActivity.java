@@ -62,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void test() {
+        userViewModel.logout();
+        userViewModel.getUserRepository().signInStatus.setValue("LOGOUT");
+        finish();
+        Intent mainIntent = new Intent(this, com.nathan630pm.nk_final_project.activities.LoginActivity.class);
+        startActivity(mainIntent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() != R.id.placeholderFragment) {
