@@ -21,7 +21,7 @@ import com.nathan630pm.nk_final_project.models.User;
 
 public class UserRepository {
     private static final String TAG = "UserRepository";
-    private final String COLLECTION_NAME = "users";
+    private final String COLLECTION_NAME = "Parking";
     private final FirebaseFirestore db;
     private final FirebaseAuth mAuth;
 
@@ -31,6 +31,11 @@ public class UserRepository {
     public UserRepository() {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    public void logout(){
+        loggedInUserID = null;
+
     }
 
     public void addUser(String email, String password, User user) {

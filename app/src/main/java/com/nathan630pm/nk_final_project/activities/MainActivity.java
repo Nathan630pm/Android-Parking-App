@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.nathan630pm.nk_final_project.R;
+import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,13 +30,17 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
+    private UserViewModel userViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.userViewModel = UserViewModel.getInstance();
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        drawerLayout = findViewById(R.id.drawerLayout);
+//        drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
@@ -58,7 +64,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        drawerLayout.openDrawer(GravityCompat.START);
+        if(item.getItemId() != R.id.placeholderFragment) {
+            userViewModel.logout();
+            userViewModel.getUserRepository().signInStatus.setValue("LOGOUT");
+            this.finish();
+            Intent mainIntent = new Intent(this, com.nathan630pm.nk_final_project.activities.LoginActivity.class);
+            startActivity(mainIntent);
+        }
         return NavigationUI.onNavDestinationSelected(item, nav) || super.onOptionsItemSelected(item);
     }
 

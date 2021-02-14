@@ -19,6 +19,10 @@ public class UserViewModel  extends ViewModel {
 
     }
 
+    public void logout(){
+        userRepository.logout();
+    }
+
     public void addUser(String email, String password, User user) {this.userRepository.addUser(email, password, user);}
 
     public UserRepository getUserRepository() {

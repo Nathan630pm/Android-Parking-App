@@ -10,4 +10,6 @@
     <string name="remember_me">Remember Me?</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="car_plate_number">Car Plate Number</string>
+    <string name="phone_number">Phone Number</string>
 </resources>

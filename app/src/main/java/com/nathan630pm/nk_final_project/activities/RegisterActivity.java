@@ -12,6 +12,9 @@ import com.nathan630pm.nk_final_project.R;
 import com.nathan630pm.nk_final_project.models.User;
 import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RegisterActivity";
@@ -20,6 +23,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText ETPassword;
     private EditText ETConfirmPassword;
     private EditText ETName;
+    private EditText ETPlateNo;
+    private EditText ETPhone;
     private UserViewModel userViewModel;
 
     @Override
@@ -31,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         this.ETPassword = findViewById(R.id.ETPassword);
         this.ETConfirmPassword = findViewById(R.id.ETConfirmPassword);
         this.ETName = findViewById(R.id.ETName);
+        this.ETPlateNo = findViewById(R.id.ETPlateNo);
+        this.ETPhone = findViewById(R.id.ETPhone);
         this.BCreateAcc = findViewById(R.id.BCreateAcc);
         this.BCreateAcc.setOnClickListener(this);
 
@@ -61,6 +68,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         newUser.setEmail(this.ETEmail.getText().toString());
         newUser.setName(this.ETName.getText().toString());
+        newUser.setContactNumber(this.ETPhone.getText().toString());
+        newUser.setCarPlateNumber(this.ETPlateNo.getText().toString());
 
         this.userViewModel.addUser(this.ETEmail.getText().toString(), this.ETPassword.getText().toString(), newUser);
     }
@@ -71,11 +80,34 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private Boolean validateData(){
+
+        this.ETName.setError(null);
+        this.ETEmail.setError(null);
+        this.ETPassword.setError(null);
+        this.ETConfirmPassword.setError(null);
+        this.ETPlateNo.setError(null);
+        this.ETPhone.setError(null);
+
+        if (this.ETName.getText().toString().isEmpty()){
+            this.ETName.setError("Please enter your name");
+            return false;
+        }
+
         if (this.ETEmail.getText().toString().isEmpty()){
             this.ETEmail.setError("Please enter email");
             return false;
         }
+        else {
+            Boolean validEmail = isEmailValid(ETEmail.getText().toString());
+
+            if(!validEmail){
+                this.ETEmail.setError("Email is not in valid format!");
+            }
+        }
+
         // add a check for valid email address format
+
+
         if (this.ETPassword.getText().toString().isEmpty()){
             this.ETPassword.setError("Password cannot be empty");
             return false;
@@ -89,6 +121,24 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             this.ETConfirmPassword.setError("Both passwords must be same");
             return false;
         }
+
+        if (this.ETPlateNo.getText().toString().isEmpty()){
+            this.ETPlateNo.setError("Please provide a car plate number");
+            return false;
+        }
+
+        if (this.ETPhone.getText().toString().isEmpty()){
+            this.ETPhone.setError("Please provide a Phone number");
+            return false;
+        }
+
         return true;
+    }
+
+    public static boolean isEmailValid(String email) {
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 }

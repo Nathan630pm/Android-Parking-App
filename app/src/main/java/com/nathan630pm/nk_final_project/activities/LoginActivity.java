@@ -60,6 +60,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     goToMain();
                 }
 
+                if(status.equals("LOGOUT")) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getApplicationContext(), "Successfully Logged out.", Toast.LENGTH_LONG).show();
+                }
+
                 else if(status.equals("FAILURE")){
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Login Failed.", Toast.LENGTH_LONG).show();
