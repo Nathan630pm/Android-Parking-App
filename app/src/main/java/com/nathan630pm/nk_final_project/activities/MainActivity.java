@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,6 +23,7 @@ import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private BottomNavigationView bottomNavigationView;
     private NavHostFragment navHostFragment;
     private NavController nav;
@@ -72,12 +74,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() != R.id.placeholderFragment) {
+        if(item.getItemId() == R.id.logout) {
             userViewModel.logout();
             userViewModel.getUserRepository().signInStatus.setValue("LOGOUT");
             this.finish();
             Intent mainIntent = new Intent(this, com.nathan630pm.nk_final_project.activities.LoginActivity.class);
             startActivity(mainIntent);
+        }
+        else if(item.getItemId() == R.id.home){
+            Log.d(TAG, "onOptionsItemSelected: back button pressed");
         }
         return NavigationUI.onNavDestinationSelected(item, nav) || super.onOptionsItemSelected(item);
     }

@@ -1,6 +1,7 @@
 package com.nathan630pm.nk_final_project.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nathan630pm.nk_final_project.OnParkingClickListener;
+import com.nathan630pm.nk_final_project.ParkingDetailsFragment;
+import com.nathan630pm.nk_final_project.ProfileFragment;
 import com.nathan630pm.nk_final_project.R;
+import com.nathan630pm.nk_final_project.ViewParkingFragment;
 import com.nathan630pm.nk_final_project.models.Parking;
 import com.squareup.picasso.Picasso;
 
@@ -34,6 +38,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         this.context = context;
         this.parkingList = parkingList;
         this.clickListener = clickListener;
+
 
     }
 
@@ -57,6 +62,14 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
                 .load(R.drawable.ic_view_parking)
                 .placeholder(R.drawable.ic_view_parking)
                 .into(holder.img);
+        holder.parkingLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "Parking clicked with id: " + item.getId());
+                clickListener.onParkingClickListener(item);
+            }
+        });
+
 
     }
 
@@ -93,6 +106,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
                 @Override
                 public void onClick(View view) {
                     parkingClickListener.onParkingClickListener(parking);
+
                 }
             });
 

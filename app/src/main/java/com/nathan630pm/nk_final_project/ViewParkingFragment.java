@@ -3,9 +3,14 @@ package com.nathan630pm.nk_final_project;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -25,9 +30,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class viewParkingFragment extends Fragment implements View.OnClickListener, OnParkingClickListener{
+public class ViewParkingFragment extends Fragment implements View.OnClickListener, OnParkingClickListener{
 
     private static final String TAG = "viewParkingFragment";
+    private View v;
     private RecyclerView recyclerView;
     private LinearLayoutManager viewManager;
     private ParkingAdapter parkingAdapter;
@@ -53,7 +59,7 @@ public class viewParkingFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View v = inflater.inflate(R.layout.fragment_view_parking, container, false);
+        this.v = inflater.inflate(R.layout.fragment_view_parking, container, false);
 
         this.context = v.getContext();
 
@@ -71,13 +77,14 @@ public class viewParkingFragment extends Fragment implements View.OnClickListene
 
 
 
+
+
         userViewModel.userObject.observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
                 currUser = user;
                 Log.e(TAG, "user profile: " + user.toString());
-                parkingViewModel.getAllParking(currUser.getEmail());
-                parkingAdapter.notifyDataSetChanged();
+
             }
         });
 
@@ -91,11 +98,14 @@ public class viewParkingFragment extends Fragment implements View.OnClickListene
         recyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), DividerItemDecoration.VERTICAL));
 
 
+
+
         this.parkingViewModel.getParkingRepository().parkingList.observe(getViewLifecycleOwner(), new Observer<List<Parking>>() {
             @Override
             public void onChanged(List<Parking> parkings) {
                 if(parkings != null) {
                     Log.d(TAG, "DATA Changed: " + parkings.toString());
+                    parkingArray.clear();
                     parkingArray.addAll(parkings);
                     parkingAdapter.notifyDataSetChanged();
                 }
@@ -118,16 +128,38 @@ public class viewParkingFragment extends Fragment implements View.OnClickListene
 
 
 
-        return v;
+        return this.v;
     }
+
 
     @Override
     public void onClick(View view) {
-
+        Log.d(TAG, "onClick: testing");
     }
 
     @Override
     public void onParkingClickListener(Parking parking) {
+        Log.d(TAG, "onParkingClickListener: VIEW PARKING LIST DETAILS PRESSED");
+//        NavDirections navDirections = ViewParkingFragmentDirec
+        String id = parking.getId();
+        Bundle bundle = new Bundle();
+        bundle.putString("itemID", id);
+        Navigation.findNavController(this.v).navigate(R.id.action_viewParkingFragment2_to_parkingDetailsFragment, bundle);
 
     }
+
+
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+        }
+    };
+
 }

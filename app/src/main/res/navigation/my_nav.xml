@@ -9,28 +9,35 @@
         android:id="@+id/profileFragment"
         android:name="com.nathan630pm.nk_final_project.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_addParkingFragment2"
-            app:destination="@id/addParkingFragment2" />
-    </fragment>
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/addParkingFragment2"
         android:name="com.nathan630pm.nk_final_project.addParkingFragment"
         android:label="Add Parking"
-        tools:layout="@layout/fragment_add_parking" >
-        <action
-            android:id="@+id/action_addParkingFragment2_to_viewParkingFragment2"
-            app:destination="@id/viewParkingFragment2" />
-    </fragment>
+        tools:layout="@layout/fragment_add_parking" />
     <fragment
         android:id="@+id/viewParkingFragment2"
-        android:name="com.nathan630pm.nk_final_project.viewParkingFragment"
+        android:name="com.nathan630pm.nk_final_project.ViewParkingFragment"
         android:label="View Parking"
-        tools:layout="@layout/fragment_view_parking" />
+        tools:layout="@layout/fragment_view_parking" >
+        <action
+            android:id="@+id/action_viewParkingFragment2_to_parkingDetailsFragment"
+            app:destination="@id/parkingDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/placeholderFragment"
         android:name="com.nathan630pm.nk_final_project.PlaceholderFragment"
         android:label="fragment_placeholder"
         tools:layout="@layout/fragment_placeholder" />
+    <fragment
+        android:id="@+id/parkingDetailsFragment"
+        android:name="com.nathan630pm.nk_final_project.ParkingDetailsFragment"
+        android:label="fragment_parking_details"
+        tools:layout="@layout/fragment_parking_details"
+
+        >
+        <argument
+            android:name="itemID"
+            app:argType="string" />
+    </fragment>
 </navigation>
