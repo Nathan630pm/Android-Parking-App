@@ -32,7 +32,7 @@
     <fragment
         android:id="@+id/parkingDetailsFragment"
         android:name="com.nathan630pm.nk_final_project.ParkingDetailsFragment"
-        android:label="fragment_parking_details"
+        android:label="Parking Details"
         tools:layout="@layout/fragment_parking_details"
 
         >

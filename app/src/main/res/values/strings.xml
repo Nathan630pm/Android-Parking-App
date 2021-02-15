@@ -14,4 +14,10 @@
     <string name="phone_number">Phone Number</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="delete_profile">Delete Profile</string>
+    <string name="building_code">Building Code</string>
+    <string name="plate_number">Plate Number</string>
+    <string name="date">Date</string>
+    <string name="hours_selected">Hours Selected</string>
+    <string name="parking_address">Parking Address</string>
+    <string name="suit_number">Suit Number</string>
 </resources>

@@ -2,16 +2,23 @@ package com.nathan630pm.nk_final_project.repositories;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nathan630pm.nk_final_project.models.Parking;
+import com.nathan630pm.nk_final_project.models.User;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -25,10 +32,39 @@ public class ParkingRepository {
 
     public MutableLiveData<List<Parking>> parkingList = new MutableLiveData<List<Parking>>();
 
+    public MutableLiveData<Parking> singleParking = new MutableLiveData<Parking>();
+
     public ParkingRepository() {this.db = FirebaseFirestore.getInstance();}
 
     public void addParking(String userEmail, Parking parking) {
 
+    }
+
+    public void getParkingByID(String userEmail, String id) {
+        try {
+            db.collection(COLLECTION_NAME)
+                    .document(userEmail)
+                    .collection(COLLECTION_PARKING_LIST)
+                    .document(id)
+                    .get()
+
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Parking tempParking = documentSnapshot.toObject(Parking.class);
+                            singleParking.setValue(tempParking);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e(TAG, "onFailure: Failed to get document: " + e.toString());
+                        }
+                    });
+        } catch (Exception ex) {
+            Log.e(TAG, ex.getLocalizedMessage());
+            Log.e(TAG, ex.toString());
+        }
     }
 
     public boolean getAllParkingItems(String userEmail) {

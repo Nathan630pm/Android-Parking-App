@@ -56,6 +56,12 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        parkingArray.clear();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
@@ -105,12 +111,14 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
             public void onChanged(List<Parking> parkings) {
                 if(parkings != null) {
                     Log.d(TAG, "DATA Changed: " + parkings.toString());
-                    parkingArray.clear();
+//                    parkingArray.clear();
                     parkingArray.addAll(parkings);
                     parkingAdapter.notifyDataSetChanged();
                 }
             }
         });
+
+
 
         this.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
