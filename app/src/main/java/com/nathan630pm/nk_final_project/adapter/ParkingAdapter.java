@@ -2,6 +2,7 @@ package com.nathan630pm.nk_final_project.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,29 +24,32 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingViewHolder> {
+    private static final String TAG = "ParkingAdapter";
     private Context context;
     private ArrayList<Parking> parkingList;
     private OnParkingClickListener clickListener;
+
 
     public ParkingAdapter(Context context, ArrayList<Parking> parkingList, OnParkingClickListener clickListener) {
         this.context = context;
         this.parkingList = parkingList;
         this.clickListener = clickListener;
+
     }
 
     @NonNull
     @Override
     public ParkingAdapter.ParkingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.parking_item, null, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.parking_item, parent, false);
         return new ParkingViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ParkingViewHolder holder, int position) {
-
-        Parking item = parkingList.get(position);
         holder.bind(parkingList.get(position), clickListener);
+        Parking item = parkingList.get(position);
 
+        Log.e(TAG, "ADDED PARKING: " + item.toString());
         holder.tvAddr.setText(item.getParkingAddr());
         holder.tvDate.setText(item.getDate().toString());
         holder.tvPlateNo.setText("Plate No: " + item.getCarPlateNumber());
@@ -62,7 +66,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
     }
 
 
-    public static class ParkingViewHolder extends RecyclerView.ViewHolder {
+    public class ParkingViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         TextView tvAddr, tvPlateNo, tvDate;
         RelativeLayout parkingLayout;

@@ -3,17 +3,19 @@ package com.nathan630pm.nk_final_project.models;
 import java.util.Date;
 
 public class Parking {
+    String id;
     String buildingCode;
     String carPlateNumber;
     Date date;
     String email;
-    String hoursSelection;
+    int hoursSelection;
     String parkingAddr;
     Double parkingLat;
     Double parkingLon;
-    int suitNo;
+    String suitNo;
 
-    public Parking(String buildingCode, String carPlateNumber, Date date, String email, String hoursSelection, String parkingAddr, Double parkingLat, Double parkingLon, int suitNo) {
+    public Parking(String id, String buildingCode, String carPlateNumber, Date date, String email, int hoursSelection, String parkingAddr, Double parkingLat, Double parkingLon, String suitNo) {
+        this.id = id;
         this.buildingCode = buildingCode;
         this.carPlateNumber = carPlateNumber;
         this.date = date;
@@ -26,6 +28,14 @@ public class Parking {
     }
 
     public Parking() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getBuildingCode() {
@@ -60,11 +70,11 @@ public class Parking {
         this.email = email;
     }
 
-    public String getHoursSelection() {
+    public int getHoursSelection() {
         return hoursSelection;
     }
 
-    public void setHoursSelection(String hoursSelection) {
+    public void setHoursSelection(int hoursSelection) {
         this.hoursSelection = hoursSelection;
     }
 
@@ -92,11 +102,11 @@ public class Parking {
         this.parkingLon = parkingLon;
     }
 
-    public int getSuitNo() {
+    public String getSuitNo() {
         return suitNo;
     }
 
-    public void setSuitNo(int suitNo) {
+    public void setSuitNo(String suitNo) {
         this.suitNo = suitNo;
     }
 }
