@@ -83,6 +83,8 @@ public class ParkingRepository {
 
                             List<Parking> tempParkingList = new ArrayList<>();
 
+
+
                             if(snapshot != null) {
                                 Log.d(TAG, "Current data: " + snapshot.getDocumentChanges());
 
@@ -92,6 +94,8 @@ public class ParkingRepository {
                                     switch (documentChange.getType()){
                                         case ADDED:
                                             tempParkingList.add(parking);
+
+
                                             break;
                                         case MODIFIED:
 

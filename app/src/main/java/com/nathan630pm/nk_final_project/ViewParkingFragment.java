@@ -53,12 +53,13 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        parkingArray.clear();
+
     }
 
     @Override
@@ -111,7 +112,7 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
             public void onChanged(List<Parking> parkings) {
                 if(parkings != null) {
                     Log.d(TAG, "DATA Changed: " + parkings.toString());
-//                    parkingArray.clear();
+                    parkingArray.clear();
                     parkingArray.addAll(parkings);
                     parkingAdapter.notifyDataSetChanged();
                 }

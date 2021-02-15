@@ -99,12 +99,8 @@ public class ParkingDetailsFragment extends Fragment {
                 ETPlateNumber.setText(parking.getCarPlateNumber());
                 ETDate.setText(parking.getDate().toString());
                 ETHoursSelect.setText(hoursSelect.get(parking.getHoursSelection()));
-                Log.d(TAG, "onChanged: HOURS SELECTED: " + parking.getHoursSelection());
                 ETParkingAddr.setText(parking.getParkingAddr());
                 ETSuit.setText(parking.getSuitNo());
-
-
-
             }
         });
 
