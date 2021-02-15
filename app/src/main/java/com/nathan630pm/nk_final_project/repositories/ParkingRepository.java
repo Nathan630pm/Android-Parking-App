@@ -82,6 +82,10 @@ public class ParkingRepository {
                             }
 
                             List<Parking> tempParkingList = new ArrayList<>();
+                            if(parkingList.getValue() != null){
+                                tempParkingList = parkingList.getValue();
+                            }
+
 
 
 
@@ -95,13 +99,13 @@ public class ParkingRepository {
                                         case ADDED:
                                             tempParkingList.add(parking);
 
-
                                             break;
                                         case MODIFIED:
 
                                             break;
                                         case REMOVED:
-                                            tempParkingList.remove(parking);
+                                            tempParkingList = parkingList.getValue();
+                                            tempParkingList.remove(parking.getId());
                                             break;
                                     }
                                 }

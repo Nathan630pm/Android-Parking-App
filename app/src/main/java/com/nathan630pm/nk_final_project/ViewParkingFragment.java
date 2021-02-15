@@ -52,7 +52,15 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.parkingArray = new ArrayList<>();
+        this.parkingViewModel = ParkingViewModel.getInstance();
+        this.userViewModel = UserViewModel.getInstance();
+        parkingArray.clear();
+        parkingViewModel.getParkingRepository().parkingList.setValue(null);
 
+
+
+        this.currUser = new User();
 
     }
 
@@ -60,7 +68,35 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
     public void onResume() {
         super.onResume();
 
+        Log.d(TAG, "onResume: resuming");
+
+        parkingArray.clear();
+        parkingViewModel.getParkingRepository().parkingList.setValue(null);
+        parkingViewModel.getAllParking(currUser.getEmail());
+        parkingAdapter.notifyDataSetChanged();
+        Log.d(TAG, "onResume: DATA SET: " + parkingArray.toString());
+
+
+
     }
+
+    public void clearData() {
+        parkingArray.clear();
+        parkingViewModel.getParkingRepository().parkingList.setValue(null);
+        parkingAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: DATA SET: " + parkingArray.toString());
+        parkingArray.clear();
+        parkingViewModel.getParkingRepository().parkingList.setValue(null);
+        parkingAdapter.notifyDataSetChanged();
+        Log.d(TAG, "onPause: DATA SET AFTER: " + parkingArray.toString());
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,16 +108,17 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
 
         this.swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
 
-        this.parkingViewModel = ParkingViewModel.getInstance();
-        this.userViewModel = UserViewModel.getInstance();
 
-        this.parkingArray = new ArrayList<>();
         this.parkingAdapter = new ParkingAdapter(context, parkingArray, this);
+        parkingArray.clear();
+        parkingViewModel.getParkingRepository().parkingList.setValue(null);
+        parkingAdapter.notifyDataSetChanged();
 
         this.viewManager = new LinearLayoutManager(v.getContext());
         viewManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-
+        this.currUser = userViewModel.getUserRepository().getUserObject();
+        Log.d(TAG, "onCreateView: User Object: " + currUser.toString());
 
 
 
@@ -95,14 +132,14 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
             }
         });
 
-        parkingViewModel.getAllParking("nathan630pm@outlook.com");
+        parkingViewModel.getAllParking(currUser.getEmail());
 
         recyclerView = v.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(this.viewManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(parkingAdapter);
         // lmao I literally spent an our trying to figure out why I had no adapter attached, and then realized I didn't attach one... *sigh*
-        recyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
 
 
@@ -125,6 +162,7 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
             @Override
             public void onRefresh() {
                 parkingArray.clear();
+                parkingViewModel.getParkingRepository().parkingList.setValue(null);
                 Boolean result = parkingViewModel.getAllParking(currUser.getEmail());
                 if(result){
                     swipeContainer.setRefreshing(false);
