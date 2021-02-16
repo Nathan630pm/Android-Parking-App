@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +30,7 @@ public class ParkingRepository {
     private FirebaseFirestore db;
     private final String COLLECTION_NAME = "AddedParking";
     private final String COLLECTION_PARKING_LIST = "ParkingList";
+    private boolean returningValue = false;
 
     public MutableLiveData<List<Parking>> parkingList = new MutableLiveData<List<Parking>>();
 
@@ -36,7 +38,30 @@ public class ParkingRepository {
 
     public ParkingRepository() {this.db = FirebaseFirestore.getInstance();}
 
-    public void addParking(String userEmail, Parking parking) {
+    public boolean addParking(String userEmail, Parking parking) {
+
+
+
+        db.collection(COLLECTION_NAME)
+                .document(userEmail)
+                .collection(COLLECTION_PARKING_LIST)
+                .add(parking)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "onSuccess: ADDED TO DATABASE.");
+                        returningValue = true;
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: FAILED TO ADD TO DATABASE");
+                        returningValue = false;
+                    }
+                });
+
+        return returningValue;
 
     }
 

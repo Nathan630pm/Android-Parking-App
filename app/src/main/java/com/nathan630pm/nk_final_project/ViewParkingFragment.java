@@ -127,6 +127,8 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
         this.viewManager = new LinearLayoutManager(v.getContext());
         viewManager.setOrientation(LinearLayoutManager.VERTICAL);
 
+
+
         this.currUser = userViewModel.getUserRepository().getUserObject();
         Log.d(TAG, "onCreateView: User Object: " + currUser.toString());
 

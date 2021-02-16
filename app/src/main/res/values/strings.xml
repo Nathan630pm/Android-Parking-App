@@ -28,6 +28,6 @@
     <string name="suit_number_2_5_characters">Suit Number (2-5 Characters)</string>
     <string name="parking_location_address">Parking Location (Address)</string>
     <string name="use_location_services">Use Current Location?</string>
-    <string name="parking_date">Parking Date</string>
+    <string name="parking_date">Parking Date (Skip for today\'s date)</string>
     <string name="how_many_hours_do_you_intend_to_park">How many hours do you intend to park?</string>
 </resources>

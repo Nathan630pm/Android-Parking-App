@@ -56,22 +56,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onChanged(String status) {
                 if(status.equals("SUCCESS")){
+                    btnSignIn.setEnabled(true);
                     progressBar.setVisibility(View.INVISIBLE);
                     finish();
                     goToMain();
                 }
 
                 if(status.equals("LOGOUT")) {
+                    btnSignIn.setEnabled(true);
                     progressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(getApplicationContext(), "Successfully Logged out.", Toast.LENGTH_LONG).show();
                 }
 
                 else if(status.equals("FAILURE")){
+                    btnSignIn.setEnabled(true);
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Login Failed.", Toast.LENGTH_LONG).show();
                 }
 
                 else if(status.equals("LOADING")){
+                    btnSignIn.setEnabled(false);
                     progressBar.setVisibility(View.VISIBLE);
                 }
             }

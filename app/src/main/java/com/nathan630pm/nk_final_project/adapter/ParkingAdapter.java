@@ -55,7 +55,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         Parking item = parkingList.get(position);
 
         Log.e(TAG, "ADDED PARKING: " + item.toString());
-        holder.tvAddr.setText("Parking Address:" + item.getParkingAddr());
+        holder.tvAddr.setText("Parking Address: " + item.getParkingAddr());
         holder.tvDate.setText("Date: " + item.getDate().toString());
         holder.tvPlateNo.setText("Plate No: " + item.getCarPlateNumber());
         Picasso.get()

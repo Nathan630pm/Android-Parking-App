@@ -23,8 +23,8 @@ public class ParkingViewModel extends ViewModel {
         return parkingRepository;
     }
 
-    public void addParking(String userEmail, Parking parking) {
-        this.parkingRepository.addParking(userEmail, parking);
+    public boolean addParking(String userEmail, Parking parking) {
+        return this.parkingRepository.addParking(userEmail, parking);
     }
 
     public boolean getAllParking(String userEmail) {
