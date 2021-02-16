@@ -190,7 +190,7 @@ public class ParkingViewOnMapsFragment extends Fragment {
 
 //            googleMap.moveCamera((CameraUpdateFactory.newLatLng(parkingAddr)));
                         GMap.animateCamera(cu);
-                        GMap.setPadding(5, 5, 5, 5);
+//                        GMap.setPadding(200, 200, 200, 200);
                         locationManager.stopLocationUpdates(v.getContext(), locationCallback);
                         progressBar.setVisibility(GONE);
 

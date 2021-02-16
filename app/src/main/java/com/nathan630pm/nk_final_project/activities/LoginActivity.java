@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         this.btnSignIn = findViewById(R.id.btnSignIn);
+        this.btnSignIn.setEnabled(true);
         this.progressBar = findViewById(R.id.progressBar);
 
         this.TVCreateAccount = findViewById(R.id.TVCreateAccount);
@@ -88,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 case R.id.btnSignIn: {
                     //verify the user
+                    this.btnSignIn.setEnabled(false);
                     this.validateLogin();
 
 

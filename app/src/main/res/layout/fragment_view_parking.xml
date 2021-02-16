@@ -6,6 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/TVNoParking"
+            android:text="No parking to show. Add some using the 'Add Parking' tab. "
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:padding="50dp"
+            android:layout_margin="50dp"
+            android:textColor="@color/red"
+            />
+
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -13,7 +30,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
+            android:paddingBottom="50dp"
             />
+
+</LinearLayout>
+
 
 
 

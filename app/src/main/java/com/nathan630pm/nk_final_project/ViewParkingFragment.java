@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.nathan630pm.nk_final_project.adapter.ParkingAdapter;
 import com.nathan630pm.nk_final_project.models.Parking;
@@ -47,6 +48,8 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
     private User currUser;
 
     private Context context;
+
+    private TextView TVNoParking;
 
 
 
@@ -110,6 +113,8 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
 
         this.context = v.getContext();
 
+        this.TVNoParking = v.findViewById(R.id.TVNoParking);
+
         this.swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
         
 
@@ -157,6 +162,15 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
                     parkingArray.clear();
                     parkingArray.addAll(parkings);
                     parkingAdapter.notifyDataSetChanged();
+
+                    if(parkingArray.size() != 0) {
+                        TVNoParking.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        TVNoParking.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    }
                 }
             }
         });

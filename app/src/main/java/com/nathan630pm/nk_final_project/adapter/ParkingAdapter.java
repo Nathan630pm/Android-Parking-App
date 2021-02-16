@@ -55,12 +55,12 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         Parking item = parkingList.get(position);
 
         Log.e(TAG, "ADDED PARKING: " + item.toString());
-        holder.tvAddr.setText(item.getParkingAddr());
-        holder.tvDate.setText(item.getDate().toString());
+        holder.tvAddr.setText("Parking Address:" + item.getParkingAddr());
+        holder.tvDate.setText("Date: " + item.getDate().toString());
         holder.tvPlateNo.setText("Plate No: " + item.getCarPlateNumber());
         Picasso.get()
-                .load(R.drawable.ic_view_parking)
-                .placeholder(R.drawable.ic_view_parking)
+                .load(R.drawable.ic_parking_list_icon)
+                .placeholder(R.drawable.ic_parking_list_icon)
                 .into(holder.img);
         holder.parkingLayout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,7 +13,7 @@
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:layout_centerVertical="true"
-        android:layout_marginRight="16sp"
+        android:layout_marginEnd="16sp"
         android:id="@+id/img"/>
     <TextView
         android:layout_width="match_parent"
@@ -22,14 +22,15 @@
         android:textSize="17sp"
         android:textStyle="bold"
         android:id="@+id/tvAddr"
-        android:layout_toRightOf="@+id/img"/>
+        android:layout_toEndOf="@+id/img"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Plate Number"
         android:layout_marginTop="5sp"
         android:textSize="12sp"
-        android:layout_toRightOf="@+id/img"
+        android:layout_toEndOf="@+id/img"
         android:layout_below="@+id/tvAddr"
         android:id="@+id/tvPlateNo"/>
 
@@ -39,7 +40,7 @@
         android:text="Parking Date"
         android:layout_marginTop="5sp"
         android:textSize="12sp"
-        android:layout_toRightOf="@+id/img"
+        android:layout_toEndOf="@+id/img"
         android:layout_below="@+id/tvPlateNo"
         android:id="@+id/tvDate"/>
 
@@ -47,9 +48,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tap to view parking details. Swipe to delete."
+        android:textStyle="italic"
         android:layout_marginTop="5sp"
         android:textSize="12sp"
-        android:layout_toRightOf="@+id/img"
+        android:layout_toEndOf="@+id/img"
         android:layout_below="@+id/tvDate"
         android:id="@+id/tvDetails"/>
 
