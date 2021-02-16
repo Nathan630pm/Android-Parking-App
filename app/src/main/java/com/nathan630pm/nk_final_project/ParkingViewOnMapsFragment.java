@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
@@ -40,6 +41,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import static android.view.View.GONE;
 
 public class ParkingViewOnMapsFragment extends Fragment {
 
@@ -69,6 +72,8 @@ public class ParkingViewOnMapsFragment extends Fragment {
 
     private List<Address> addresses;
     private String address;
+
+    private ProgressBar progressBar;
 
 
 
@@ -123,6 +128,8 @@ public class ParkingViewOnMapsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         v = inflater.inflate(R.layout.fragment_parking_view_on_maps, container, false);
+
+        this.progressBar = v.findViewById(R.id.progressBar);
 
         this.geocoder = new Geocoder(v.getContext(), Locale.getDefault());
         this.address = "Current Location";
@@ -185,6 +192,7 @@ public class ParkingViewOnMapsFragment extends Fragment {
                         GMap.animateCamera(cu);
                         GMap.setPadding(5, 5, 5, 5);
                         locationManager.stopLocationUpdates(v.getContext(), locationCallback);
+                        progressBar.setVisibility(GONE);
 
 
 
