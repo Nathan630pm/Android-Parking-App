@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.nathan630pm.nk_final_project.adapter.ParkingAdapter;
 import com.nathan630pm.nk_final_project.models.Parking;
@@ -57,6 +58,8 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
         this.userViewModel = UserViewModel.getInstance();
         parkingArray.clear();
         parkingViewModel.getParkingRepository().parkingList.setValue(null);
+        
+        
 
 
 
@@ -104,9 +107,11 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
 
         this.v = inflater.inflate(R.layout.fragment_view_parking, container, false);
 
+
         this.context = v.getContext();
 
         this.swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
+        
 
 
         this.parkingAdapter = new ParkingAdapter(context, parkingArray, this);
@@ -171,6 +176,9 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
         });
 
 
+        
+
+
 
 
 
@@ -182,6 +190,11 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         Log.d(TAG, "onClick: testing");
+
+        if(view != null){
+
+        }
+
     }
 
     @Override

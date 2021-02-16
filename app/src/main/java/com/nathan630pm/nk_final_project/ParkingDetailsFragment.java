@@ -6,12 +6,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -36,6 +38,7 @@ public class ParkingDetailsFragment extends Fragment {
     private ParkingViewModel parkingViewModel;
     private String itemID;
 
+    private Button BViewMap;
     private User currUser;
     private Parking currParking;
 
@@ -104,7 +107,25 @@ public class ParkingDetailsFragment extends Fragment {
             }
         });
 
+
+
+        this.BViewMap = (Button) v.findViewById(R.id.BViewMap);
+        BViewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: BViewMap pressed.");
+                viewOnMap();
+            }
+        });
+
         return this.v;
+    }
+
+    public void viewOnMap() {
+        String parkingid = itemID;
+        Bundle viewOnMap = new Bundle();
+        viewOnMap.putString("itemID", parkingid);
+        Navigation.findNavController(this.v).navigate(R.id.action_parkingDetailsFragment_to_parkingViewOnMapsFragment, viewOnMap);
     }
 
 

@@ -39,5 +39,29 @@
         <argument
             android:name="itemID"
             app:argType="string" />
+        <action
+            android:id="@+id/action_parkingDetailsFragment_to_parkingMapFragment"
+            app:destination="@id/parkingMapFragment" />
+        <action
+            android:id="@+id/action_parkingDetailsFragment_to_parkingViewOnMapsFragment"
+            app:destination="@id/parkingViewOnMapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/parkingMapFragment"
+        android:name="com.nathan630pm.nk_final_project.ParkingMapFragment"
+        android:label="View On Map"
+        tools:layout="@layout/fragment_parking_map" >
+        <argument
+            android:name="itemID"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/parkingViewOnMapsFragment"
+        android:name="com.nathan630pm.nk_final_project.ParkingViewOnMapsFragment"
+        android:label="Parking MapView"
+        tools:layout="@layout/fragment_parking_view_on_maps" >
+        <argument
+            android:name="itemID"
+            app:argType="string" />
     </fragment>
 </navigation>
