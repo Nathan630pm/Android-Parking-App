@@ -129,8 +129,7 @@ public class ParkingRepository {
 
                                             break;
                                         case REMOVED:
-                                            tempParkingList = parkingList.getValue();
-                                            tempParkingList.remove(parking.getId());
+
                                             break;
                                     }
                                 }
@@ -150,6 +149,27 @@ public class ParkingRepository {
             return false;
         }
         return true;
+    }
+
+
+    public void deleteParking(User user, Parking parking) {
+        db.collection(COLLECTION_NAME)
+                .document(user.getEmail())
+                .collection(COLLECTION_PARKING_LIST)
+                .document(parking.getId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Document deleted successfully.");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Failed to delete document. Please try again later.");
+                    }
+                });
     }
 
 

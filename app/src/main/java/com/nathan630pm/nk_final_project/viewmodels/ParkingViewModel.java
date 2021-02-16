@@ -3,6 +3,7 @@ package com.nathan630pm.nk_final_project.viewmodels;
 import androidx.lifecycle.ViewModel;
 
 import com.nathan630pm.nk_final_project.models.Parking;
+import com.nathan630pm.nk_final_project.models.User;
 import com.nathan630pm.nk_final_project.repositories.ParkingRepository;
 
 public class ParkingViewModel extends ViewModel {
@@ -31,6 +32,8 @@ public class ParkingViewModel extends ViewModel {
         Boolean result = this.parkingRepository.getAllParkingItems(userEmail);
         return result;
     }
+
+    public void deleteParking(User user, Parking parking) {parkingRepository.deleteParking(user, parking);}
 
 
 

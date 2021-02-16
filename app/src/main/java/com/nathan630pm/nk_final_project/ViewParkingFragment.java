@@ -51,6 +51,8 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
 
     private TextView TVNoParking;
 
+    private ItemTouchHelper helper;
+
 
 
     @Override
@@ -61,8 +63,8 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
         this.userViewModel = UserViewModel.getInstance();
         parkingArray.clear();
         parkingViewModel.getParkingRepository().parkingList.setValue(null);
-        
-        
+
+
 
 
 
@@ -153,6 +155,9 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
         // lmao I literally spent an our trying to figure out why I had no adapter attached, and then realized I didn't attach one... *sigh*
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
+        helper = new ItemTouchHelper(simpleCallback);
+        helper.attachToRecyclerView(recyclerView);
+
 
 
 
@@ -234,7 +239,15 @@ public class ViewParkingFragment extends Fragment implements View.OnClickListene
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            parkingViewModel.deleteParking(currUser, parkingArray.get(viewHolder.getAdapterPosition()));
+//            parkingArray.remove(viewHolder.getAdapterPosition());
+//            parkingViewModel.getParkingRepository().parkingList.setValue(parkingArray);
+//            parkingArray.clear();
+//            parkingViewModel.getAllParking(currUser.getEmail());
 
+            parkingArray.clear();
+            parkingViewModel.getParkingRepository().parkingList.setValue(null);
+            Boolean result = parkingViewModel.getAllParking(currUser.getEmail());
         }
     };
 
