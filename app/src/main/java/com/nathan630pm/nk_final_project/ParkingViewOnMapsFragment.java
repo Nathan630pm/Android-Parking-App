@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
 import android.graphics.Camera;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,13 +28,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.nathan630pm.nk_final_project.managers.LocationManager;
 import com.nathan630pm.nk_final_project.models.Parking;
 import com.nathan630pm.nk_final_project.models.User;
 import com.nathan630pm.nk_final_project.viewmodels.ParkingViewModel;
 import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class ParkingViewOnMapsFragment extends Fragment {
 
@@ -56,6 +64,13 @@ public class ParkingViewOnMapsFragment extends Fragment {
     private int testUpdateNo = 1;
 
     private LatLng sydney = new LatLng(-34, 151);
+
+    private Geocoder geocoder;
+
+    private List<Address> addresses;
+    private String address;
+
+
 
     private ArrayList<LatLng> markers = new ArrayList<LatLng>();
 
@@ -109,6 +124,9 @@ public class ParkingViewOnMapsFragment extends Fragment {
 
         v = inflater.inflate(R.layout.fragment_parking_view_on_maps, container, false);
 
+        this.geocoder = new Geocoder(v.getContext(), Locale.getDefault());
+        this.address = "Current Location";
+
         this.userViewModel = UserViewModel.getInstance();
         this.parkingViewModel = ParkingViewModel.getInstance();
 
@@ -130,14 +148,28 @@ public class ParkingViewOnMapsFragment extends Fragment {
                         GMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, DEFAULT_ZOOM));
                         marker.remove();
 
-                        marker = GMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
+
+                        try {
+                            addresses = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 1);
+                            address = "Current Location: (" + addresses.get(0).getAddressLine(0) + ")";
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        marker = GMap.addMarker(new MarkerOptions().position(currentLocation).title(address));
 
                         LatLng parkingAddr = new LatLng(currParking.getParkingLat(), currParking.getParkingLon());
 
-                        GMap.addMarker(new MarkerOptions().position(parkingAddr).title("Parking Address"));
+                        GMap.addMarker(new MarkerOptions().position(parkingAddr).title(currParking.getParkingAddr()));
 
                         markers.add(currentLocation);
                         markers.add(parkingAddr);
+
+                        Polyline line = GMap.addPolyline(new PolylineOptions()
+                        .add(currentLocation, parkingAddr)
+                        .width(5)
+                        .color(Color.BLUE));
 
                         LatLngBounds.Builder builder = new LatLngBounds.Builder();
                         for (LatLng marker : markers) {
@@ -145,11 +177,14 @@ public class ParkingViewOnMapsFragment extends Fragment {
                         }
                         LatLngBounds bounds = builder.build();
 
-                        int padding = -5;
+                        int padding = 200;
                         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
 
 //            googleMap.moveCamera((CameraUpdateFactory.newLatLng(parkingAddr)));
                         GMap.animateCamera(cu);
+                        GMap.setPadding(5, 5, 5, 5);
+                        locationManager.stopLocationUpdates(v.getContext(), locationCallback);
 
 
 
