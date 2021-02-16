@@ -22,4 +22,12 @@
     <string name="suit_number">Suit Number</string>
     <string name="view_on_map">View On Map</string>
     <string name="google_maps_key">AIzaSyC6z5hm51s1M8avJnE_rTJoVutFP-lsA9M</string>
+    <string name="add_parking">Add Parking</string>
+    <string name="building_code_5_characters">Building Code (5 Characters)</string>
+    <string name="car_plate_number_2_8_characters">Car Plate Number (2-8 Characters)</string>
+    <string name="suit_number_2_5_characters">Suit Number (2-5 Characters)</string>
+    <string name="parking_location_address">Parking Location (Address)</string>
+    <string name="use_location_services">Use Current Location?</string>
+    <string name="parking_date">Parking Date</string>
+    <string name="how_many_hours_do_you_intend_to_park">How many hours do you intend to park?</string>
 </resources>
