@@ -131,6 +131,7 @@ public class addParkingFragment extends Fragment implements AdapterView.OnItemSe
 
         ETBuildingCode = v.findViewById(R.id.ETBuildingCode);
         ETPlateNo = v.findViewById(R.id.ETPlateNo);
+        ETPlateNo.setText(userViewModel.getUserRepository().userObject.getValue().getCarPlateNumber());
         ETSuit = v.findViewById(R.id.ETSuit);
         ETAddress = v.findViewById(R.id.ETAddress);
 
