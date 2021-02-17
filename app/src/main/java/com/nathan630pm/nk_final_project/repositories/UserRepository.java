@@ -89,6 +89,28 @@ public class UserRepository {
         }
     }
 
+    public void savedUserGetUser(String email) {
+        db.collection(COLLECTION_NAME)
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            signInStatus.postValue("SUCCESS_SAVE");
+                            loggedInUserID.postValue(task.getResult().getDocuments().get(0).getId());
+                            userID = task.getResult().getDocuments().get(0).getId();
+                            getUserObject();
+
+                            Log.d(TAG, "Logged in user document ID: " + loggedInUserID);
+                        }
+                        else {
+                            signInStatus.postValue("FAILURE");
+                        }
+                    }
+                });
+    }
+
     public void getUser(String email, final String password) {
         this.signInStatus.postValue("LOADING");
         try {

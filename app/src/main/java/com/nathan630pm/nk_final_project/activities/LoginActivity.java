@@ -1,14 +1,19 @@
 package com.nathan630pm.nk_final_project.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -17,7 +22,7 @@ import android.widget.Toast;
 import com.nathan630pm.nk_final_project.R;
 import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "LoginActivity";
     private TextView TVCreateAccount;
@@ -28,6 +33,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private UserViewModel userViewModel;
     private Context context;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
+    private SwitchCompat swtRemember;
+    private Boolean rememberMe = false;
+
 
 
     @Override
@@ -35,8 +45,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        context = getApplicationContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = sharedPreferences.edit();
+        editor.clear();
+
+
+        this.swtRemember = (SwitchCompat) findViewById(R.id.swtRemember);
+
+        swtRemember.setOnCheckedChangeListener(this);
+
+
+
+
+
+
         this.ETEmail = findViewById(R.id.ETEmail);
-        this.ETEmail.setText("Nathan630pm@outlook.com");
         this.ETPassword = findViewById(R.id.ETPassword);
 
 
@@ -52,12 +76,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         this.userViewModel = UserViewModel.getInstance();
 
+        String savedEmail = sharedPreferences.getString(context.getString(R.string.saved_email), "");
+        Log.d(TAG, "onCreate: SHARED PREFERENCE EMAIL: " + savedEmail);
+
+
+//        editor.putString(context.getString(R.string.saved_email), savedEmail).apply();
+
+        if(!savedEmail.equals("") && savedEmail != null) {
+            userViewModel.getUserRepository().savedUserGetUser(savedEmail);
+
+            Log.d(TAG, "onCreate: LOGGIN IN USER " + savedEmail);
+
+
+
+        }
+
         this.userViewModel.getUserRepository().signInStatus.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String status) {
                 if(status.equals("SUCCESS")){
                     btnSignIn.setEnabled(true);
                     progressBar.setVisibility(View.INVISIBLE);
+                    if(rememberMe){
+                        editor = sharedPreferences.edit();
+//                    editor.clear();
+                        editor.putString(context.getString(R.string.saved_email), ETEmail.getText().toString());
+                        editor.apply();
+                        editor.commit();
+                    }
+
+                    finish();
+                    goToMain();
+                }
+
+                if (status.equals("SUCCESS_SAVE")) {
                     finish();
                     goToMain();
                 }
@@ -80,6 +132,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+
+
+    }
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        this.rememberMe = b;
+        Log.d(TAG, "onCheckedChanged: RememberMe: " + b);
     }
 
     @Override
@@ -104,7 +165,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
+
+
+
     private void goToMain() {
+
+
         this.finish();
         Intent mainIntent = new Intent(this, com.nathan630pm.nk_final_project.activities.MainActivity.class);
         startActivity(mainIntent);

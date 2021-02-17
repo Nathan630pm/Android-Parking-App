@@ -10,8 +10,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,10 +37,19 @@ public class MainActivity extends AppCompatActivity {
 
     private UserViewModel userViewModel;
 
+    private Context context;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = getApplicationContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = sharedPreferences.edit();
+        editor.clear();
 
         this.userViewModel = UserViewModel.getInstance();
 
@@ -75,6 +87,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.logout) {
+
+            editor = sharedPreferences.edit();
+//                    editor.clear();
+            editor.putString(context.getString(R.string.saved_email), "");
+            editor.apply();
+            editor.commit();
+
             userViewModel.logout();
             userViewModel.getUserRepository().signInStatus.setValue("LOGOUT");
             this.finish();
