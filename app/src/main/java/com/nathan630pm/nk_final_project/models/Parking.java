@@ -1,9 +1,13 @@
 package com.nathan630pm.nk_final_project.models;
 
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
 import java.util.Date;
 
+@IgnoreExtraProperties
 public class Parking {
-    String id;
+    @Exclude String id;
     String buildingCode;
     String carPlateNumber;
     Date date;

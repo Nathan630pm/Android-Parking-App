@@ -14,6 +14,8 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -23,7 +25,9 @@ import com.nathan630pm.nk_final_project.models.User;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ParkingRepository {
     private static final String TAG = "ParkingRepository";
@@ -50,6 +54,11 @@ public class ParkingRepository {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "onSuccess: ADDED TO DATABASE.");
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("id", FieldValue.delete());
+
+                        documentReference.update(updates);
+
                         returningValue = true;
                     }
                 })
