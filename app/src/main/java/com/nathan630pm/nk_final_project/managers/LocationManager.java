@@ -21,6 +21,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class LocationManager {
     private final String TAG = this.getClass().getCanonicalName();
     private FusedLocationProviderClient fusedLocationProviderClient = null;
