@@ -34,16 +34,17 @@ public class ParkingRepository {
     private FirebaseFirestore db;
     private final String COLLECTION_NAME = "AddedParking";
     private final String COLLECTION_PARKING_LIST = "ParkingList";
-    private boolean returningValue = false;
+    private boolean returningValue;
 
     public MutableLiveData<List<Parking>> parkingList = new MutableLiveData<List<Parking>>();
 
     public MutableLiveData<Parking> singleParking = new MutableLiveData<Parking>();
 
+    public MutableLiveData<Boolean> uploadSuccess = new MutableLiveData<Boolean>();
+
     public ParkingRepository() {this.db = FirebaseFirestore.getInstance();}
 
     public boolean addParking(String userEmail, Parking parking) {
-
 
 
         db.collection(COLLECTION_NAME)
@@ -58,6 +59,8 @@ public class ParkingRepository {
                         updates.put("id", FieldValue.delete());
 
                         documentReference.update(updates);
+
+                        uploadSuccess.setValue(false);
 
                         returningValue = true;
                     }

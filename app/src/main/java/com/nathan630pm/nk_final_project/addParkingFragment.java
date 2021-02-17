@@ -1,6 +1,8 @@
 package com.nathan630pm.nk_final_project;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -8,6 +10,7 @@ import android.location.Location;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,6 +80,11 @@ public class addParkingFragment extends Fragment implements AdapterView.OnItemSe
     private LatLng calculatedCoords;
 
     private Boolean formOk = false;
+    private Boolean BCOk = false;
+    private Boolean CPNOk = false;
+    private Boolean SNOk = false;
+    private Boolean PAOk = false;
+
 
 
     private UserViewModel userViewModel;
@@ -91,6 +99,13 @@ public class addParkingFragment extends Fragment implements AdapterView.OnItemSe
 
         this.userViewModel = UserViewModel.getInstance();
         this.parkingViewModel = ParkingViewModel.getInstance();
+
+//        this.parkingViewModel.getParkingRepository().uploadSuccess.observe(this, new Observer<Boolean>() {
+//            @Override
+//            public void onChanged(Boolean aBoolean) {
+////                parkingStatus(aBoolean);
+//            }
+//        });
 
     }
 
@@ -185,28 +200,28 @@ public class addParkingFragment extends Fragment implements AdapterView.OnItemSe
                 if(ETBuildingCode.getText().toString().length() != 5) {
                     TVBuildingCodeError.setVisibility(View.VISIBLE);
                     TVBuildingCodeError.setText("Building codes must be exactly 5 characters!");
-                    formOk = false;
+                    BCOk = false;
                 }
                 else {
-                    formOk = true;
+                    BCOk = true;
                 }
 
                 if(ETPlateNo.getText().toString().length() <2 || ETPlateNo.getText().toString().length() > 8) {
                     TVPlateNoError.setVisibility(View.VISIBLE);
                     TVPlateNoError.setText("Plate Numbers must be 2-8 characters!");
-                    formOk = false;
+                    CPNOk = false;
                 }
                 else {
-                    formOk = true;
+                    CPNOk = true;
                 }
 
                 if(ETSuit.getText().toString().length() <2 || ETSuit.getText().toString().length() > 5) {
                     TVSuitError.setVisibility(View.VISIBLE);
                     TVSuitError.setText("Suit Numbers must be 2-5 characters!");
-                    formOk = false;
+                    SNOk = false;
                 }
                 else {
-                    formOk = true;
+                    SNOk = true;
                 }
 
                 if(!locationIsChecked && !ETAddress.getText().toString().equals("")) {
@@ -215,15 +230,27 @@ public class addParkingFragment extends Fragment implements AdapterView.OnItemSe
                 else if(ETAddress.getText().toString().equals("")){
                     TVAddressError.setVisibility(View.VISIBLE);
                     TVAddressError.setText("Please enter an address.");
-                    formOk = false;
+                    PAOk = false;
                 }
                 else {
-                    formOk = true;
+                    PAOk = true;
                 }
 
-                if(formOk) {
+                if(BCOk && CPNOk && SNOk && PAOk) {
                     Toast.makeText(context, "Adding Parking. Please wait...", Toast.LENGTH_SHORT).show();
                     addParkingToDatabase();
+                }
+                else {
+                    new AlertDialog.Builder(context)
+                            .setMessage("Please make sure you fill in all fields! \nWe've marked the ones you need to fix with a red error message!")
+                            .setTitle("Fill in all fields!")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .show();
                 }
             }
         });
@@ -293,16 +320,47 @@ public class addParkingFragment extends Fragment implements AdapterView.OnItemSe
 
         Boolean result = parkingViewModel.addParking(userViewModel.getUserObject().getEmail(), parkingToAdd);
 
-        if(result) {
-            Log.d(TAG, "Successfully added Parking to Database!");
-            Toast.makeText(context, "Successfully added Parking to Database!", Toast.LENGTH_LONG).show();
-        }
-        if(!result) {
-            Log.e(TAG, "Something went wrong, please try again in a moment.");
-            Toast.makeText(context, "Something went wrong, please try again in a moment.", Toast.LENGTH_LONG).show();
-        }
+        Log.d(TAG, "addParkingToDatabase: RESULT: " + result);
+
+        parkingStatus(result);
 
 
+    }
+
+    private void parkingStatus(Boolean status) {
+        if(status){
+            ETBuildingCode.setText("");
+            hoursSelect = 0;
+            ETPlateNo.setText("");
+            ETSuit.setText("");
+            ETAddress.setText("");
+            CBUseLocation.setChecked(false);
+            locationIsChecked = false;
+
+            new AlertDialog.Builder(context)
+                    .setMessage("Successfully added Parking to Database.")
+                    .setTitle("Success!")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .show();
+
+        }
+        else {
+            new AlertDialog.Builder(context)
+                    .setMessage("Failed to add Parking to Database. \nPlease try again.")
+                    .setTitle("Uh oh!")
+                    .setPositiveButton("Sweet!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .show();
+        }
     }
 
 
@@ -312,11 +370,12 @@ public class addParkingFragment extends Fragment implements AdapterView.OnItemSe
             calculatedAddresses = geocoder.getFromLocationName(ETAddress.getText().toString(), 1);
             if(calculatedAddresses.size() > 0) {
                 calculatedCoords = new LatLng(calculatedAddresses.get(0).getLatitude(), calculatedAddresses.get(0).getLongitude());
+                PAOk = true;
             }
             else {
                 TVAddressError.setText("Could not find coords matching that address");
                 TVAddressError.setVisibility(View.VISIBLE);
-                formOk = false;
+                PAOk = false;
             }
 
         } catch (IOException e) {
