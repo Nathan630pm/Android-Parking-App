@@ -1,6 +1,8 @@
 package com.nathan630pm.nk_final_project;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -97,13 +99,28 @@ public class ParkingDetailsFragment extends Fragment {
         parkingViewModel.getParkingRepository().singleParking.observe(getViewLifecycleOwner(), new Observer<Parking>() {
             @Override
             public void onChanged(Parking parking) {
-                currParking = parking;
-                ETBuildingCode.setText(parking.getBuildingCode());
-                ETPlateNumber.setText(parking.getCarPlateNumber());
-                ETDate.setText(parking.getDate().toString());
-                ETHoursSelect.setText(hoursSelect.get(parking.getHoursSelection()));
-                ETParkingAddr.setText(parking.getParkingAddr());
-                ETSuit.setText(parking.getSuitNo());
+                if(parking != null){
+                    currParking = parking;
+                    ETBuildingCode.setText(parking.getBuildingCode());
+                    ETPlateNumber.setText(parking.getCarPlateNumber());
+                    ETDate.setText(parking.getDate().toString());
+                    ETHoursSelect.setText(hoursSelect.get(parking.getHoursSelection()));
+                    ETParkingAddr.setText(parking.getParkingAddr());
+                    ETSuit.setText(parking.getSuitNo());
+                }
+                else {
+                    new AlertDialog.Builder(context)
+                            .setMessage("There was a problem loading these parking details. \nPlease try again later.")
+                            .setTitle("There was a problem...")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    getActivity().onBackPressed();
+                                }
+                            })
+                            .show();
+                }
+
             }
         });
 
