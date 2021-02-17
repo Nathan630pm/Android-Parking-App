@@ -1,5 +1,6 @@
 package com.nathan630pm.nk_final_project.viewmodels;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -52,8 +53,8 @@ public class UserViewModel  extends ViewModel {
         userRepository.updateUser(name, email, phone, plateNo);
     }
 
-    public void deleteUser(String email, String password){
-        userRepository.deleteUser(email, password);
+    public void deleteUser(String email, String password, Context context){
+        userRepository.deleteUser(email, password, context);
     }
 
 }

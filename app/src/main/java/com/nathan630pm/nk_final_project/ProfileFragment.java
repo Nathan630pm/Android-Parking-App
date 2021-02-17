@@ -32,12 +32,16 @@ import com.nathan630pm.nk_final_project.models.User;
 import com.nathan630pm.nk_final_project.repositories.UserRepository;
 import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 
+import java.util.ArrayList;
+
 //Created By: Nathan Kennedy, Student ID: 101333351
 
 
 public class ProfileFragment extends Fragment {
 
     private static final String TAG = "ProfileFragment";
+
+    private View v;
 
     private UserViewModel userViewModel;
 
@@ -55,6 +59,8 @@ public class ProfileFragment extends Fragment {
     private View dialogView;
     private Context context;
 
+    private AlertDialog addDialog;
+
 
 
     private Boolean editToggle = false;
@@ -63,6 +69,15 @@ public class ProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.userViewModel = UserViewModel.getInstance();
+
+        this.userViewModel.getUserRepository().deleteProfileComplete.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    ((MainActivity)getActivity()).test();
+                }
+            }
+        });
 
 
         this.userViewModel.getUserRepository().userObject.observe(this, new Observer<User>() {
@@ -88,7 +103,7 @@ public class ProfileFragment extends Fragment {
 
 
 
-        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+        v = inflater.inflate(R.layout.fragment_profile, container, false);
 
 
 
@@ -125,7 +140,15 @@ public class ProfileFragment extends Fragment {
 
     private void showDialog() {
 
-        final AlertDialog addDialog = new AlertDialog.Builder(context)
+//        if(addDialog != null){
+//            ((ViewGroup) addDialog.getCurrentFocus()).removeView(addDialog.getCurrentFocus());
+//
+//        }
+
+
+
+
+        addDialog = new AlertDialog.Builder(context)
                 .setTitle("Are You Sure?")
                 .setMessage("Please Confirm your password:")
                 .setView(dialogView)
@@ -139,12 +162,15 @@ public class ProfileFragment extends Fragment {
                         deleteUser(ETConfirmPassword.getText().toString());
 
 
-                        ((MainActivity)getActivity()).test();
-
 
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
                 .create();
 
         addDialog.show();
@@ -158,7 +184,12 @@ public class ProfileFragment extends Fragment {
 
 
     private void deleteUser(String password) {
-        userViewModel.deleteUser(userObject.getEmail(), password);
+        if(password.equals("") || password == null){
+
+        }else {
+            userViewModel.deleteUser(userObject.getEmail(), password, this.getContext());
+        }
+
     }
 
 

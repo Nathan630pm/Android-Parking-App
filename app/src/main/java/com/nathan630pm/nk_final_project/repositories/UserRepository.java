@@ -1,5 +1,10 @@
 package com.nathan630pm.nk_final_project.repositories;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.nathan630pm.nk_final_project.R;
+import com.nathan630pm.nk_final_project.activities.MainActivity;
 import com.nathan630pm.nk_final_project.models.User;
 
 //Created By: Nathan Kennedy, Student ID: 101333351
@@ -37,6 +44,8 @@ public class UserRepository {
     public MutableLiveData<String> signInStatus = new MutableLiveData<String>();
     public MutableLiveData<String> loggedInUserID = new MutableLiveData<String>();
     public MutableLiveData<User> userObject = new MutableLiveData<User>();
+    public MutableLiveData<String> deleteProfileErr = new MutableLiveData<String>();
+    public MutableLiveData<Boolean> deleteProfileComplete = new MutableLiveData<Boolean>();
 
     private String userID;
 
@@ -272,27 +281,60 @@ public class UserRepository {
 
     }
 
-    public void deleteUser(String email, String password) {
-        final FirebaseUser userToDelete = mAuth.getCurrentUser();
-        AuthCredential credential = EmailAuthProvider
-                .getCredential(email, password);
-        userToDelete.reauthenticate(credential)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        userToDelete.delete()
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.d(TAG, "User account deleted.");
-                                            logout();
-                                        }
-                                    }
-                                });
+    public void deleteUser(String email, String password, Context context) {
+        if(email.equals("") || email == null || password.equals("") || password == null){
+            deleteProfileErr.setValue("Password is blank... Please enter a password.");
+        }else {
+            final FirebaseUser userToDelete = mAuth.getCurrentUser();
+            AuthCredential credential = EmailAuthProvider
+                    .getCredential(email, password);
+            userToDelete.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            userToDelete.delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User account deleted.");
+                                                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.clear();
 
-                    }
-                });
+                                                editor = sharedPreferences.edit();
+                                                editor.putString(context.getString(R.string.saved_email), "");
+                                                editor.apply();
+                                                editor.commit();
+
+                                                deleteProfileComplete.setValue(true);
+
+
+                                                new AlertDialog.Builder(context)
+                                                        .setMessage("Your account has been deleted.")
+                                                        .setTitle("Account Deleted.")
+                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                logout();
+
+                                                            }
+                                                        })
+                                                        .show();
+                                            }
+                                        }
+                                    });
+
+                        }
+                    })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    deleteProfileErr.setValue(e.toString() + "\n" + e.getLocalizedMessage());
+                }
+            });
+        }
+
     }
 
     public void checkForActiveUser() {
