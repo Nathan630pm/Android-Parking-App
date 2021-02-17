@@ -60,7 +60,7 @@ public class ParkingRepository {
 
                         documentReference.update(updates);
 
-                        uploadSuccess.setValue(false);
+                        uploadSuccess.setValue(true);
 
                         returningValue = true;
                     }
@@ -70,6 +70,8 @@ public class ParkingRepository {
                     public void onFailure(@NonNull Exception e) {
                         Log.e(TAG, "onFailure: FAILED TO ADD TO DATABASE");
                         returningValue = false;
+
+                        uploadSuccess.setValue(true);
                     }
                 });
 

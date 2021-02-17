@@ -90,6 +90,9 @@ public class addParkingFragment extends Fragment implements AdapterView.OnItemSe
     private UserViewModel userViewModel;
     private ParkingViewModel parkingViewModel;
 
+    private Boolean waitingForResult = false;
+    private Boolean databaseResult = false;
+
 
 
 
@@ -100,12 +103,15 @@ public class addParkingFragment extends Fragment implements AdapterView.OnItemSe
         this.userViewModel = UserViewModel.getInstance();
         this.parkingViewModel = ParkingViewModel.getInstance();
 
-//        this.parkingViewModel.getParkingRepository().uploadSuccess.observe(this, new Observer<Boolean>() {
-//            @Override
-//            public void onChanged(Boolean aBoolean) {
-////                parkingStatus(aBoolean);
-//            }
-//        });
+        this.parkingViewModel.getParkingRepository().uploadSuccess.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(waitingForResult){
+                    parkingStatus(aBoolean);
+                    waitingForResult = false;
+                }
+            }
+        });
 
     }
 
@@ -317,12 +323,12 @@ public class addParkingFragment extends Fragment implements AdapterView.OnItemSe
         parkingToAdd.setSuitNo(ETSuit.getText().toString());
 
         Log.d(TAG, "addParkingToDatabase: GENERATED PARKING: " + parkingToAdd);
-
+        waitingForResult = true;
         Boolean result = parkingViewModel.addParking(userViewModel.getUserObject().getEmail(), parkingToAdd);
 
         Log.d(TAG, "addParkingToDatabase: RESULT: " + result);
 
-        parkingStatus(result);
+
 
 
     }
