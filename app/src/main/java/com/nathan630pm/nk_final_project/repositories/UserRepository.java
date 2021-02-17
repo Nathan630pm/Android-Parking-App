@@ -24,6 +24,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.nathan630pm.nk_final_project.models.User;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class UserRepository {
     private static final String TAG = "UserRepository";
     private final String COLLECTION_NAME = "Parking";

@@ -32,6 +32,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class ViewParkingFragment extends Fragment implements View.OnClickListener, OnParkingClickListener{
 
     private static final String TAG = "viewParkingFragment";

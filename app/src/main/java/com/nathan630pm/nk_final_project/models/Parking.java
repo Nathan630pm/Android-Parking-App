@@ -5,6 +5,8 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.Date;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 @IgnoreExtraProperties
 public class Parking {
     @Exclude String id;

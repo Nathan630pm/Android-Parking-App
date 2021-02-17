@@ -27,6 +27,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingViewHolder> {
     private static final String TAG = "ParkingAdapter";
     private Context context;

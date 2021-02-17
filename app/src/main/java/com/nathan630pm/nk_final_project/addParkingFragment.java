@@ -50,6 +50,8 @@ import java.util.Locale;
 
 import static android.view.View.GONE;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class addParkingFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "addParkingFragment";

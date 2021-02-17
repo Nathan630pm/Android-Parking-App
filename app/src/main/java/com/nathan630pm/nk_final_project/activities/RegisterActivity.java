@@ -16,6 +16,8 @@ import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RegisterActivity";

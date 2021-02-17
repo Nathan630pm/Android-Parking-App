@@ -31,6 +31,8 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 
 public class ParkingDetailsFragment extends Fragment {
 

@@ -6,6 +6,8 @@ import com.nathan630pm.nk_final_project.models.Parking;
 import com.nathan630pm.nk_final_project.models.User;
 import com.nathan630pm.nk_final_project.repositories.ParkingRepository;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class ParkingViewModel extends ViewModel {
 
     private static final String TAG = "ParkingViewModel";

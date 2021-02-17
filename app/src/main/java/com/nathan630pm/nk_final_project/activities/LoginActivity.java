@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.nathan630pm.nk_final_project.R;
 import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "LoginActivity";

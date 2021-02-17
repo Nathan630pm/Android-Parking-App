@@ -44,6 +44,8 @@ import java.util.Locale;
 
 import static android.view.View.GONE;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class ParkingViewOnMapsFragment extends Fragment {
 
     private static final String TAG = "ParkingViewOnMapsFragment";

@@ -1,5 +1,7 @@
 package com.nathan630pm.nk_final_project.models;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class User {
     String email;
     String name;

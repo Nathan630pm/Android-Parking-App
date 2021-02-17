@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class ParkingRepository {
     private static final String TAG = "ParkingRepository";
     private FirebaseFirestore db;

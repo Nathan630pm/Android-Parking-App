@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel;
 import com.nathan630pm.nk_final_project.models.User;
 import com.nathan630pm.nk_final_project.repositories.UserRepository;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class UserViewModel  extends ViewModel {
     private static final String TAG = "UserViewModel";
     private static final UserViewModel ourInstance = new UserViewModel();

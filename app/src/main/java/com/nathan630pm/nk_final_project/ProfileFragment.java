@@ -32,6 +32,8 @@ import com.nathan630pm.nk_final_project.models.User;
 import com.nathan630pm.nk_final_project.repositories.UserRepository;
 import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 
 public class ProfileFragment extends Fragment {
 

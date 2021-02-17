@@ -24,6 +24,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.nathan630pm.nk_final_project.R;
 import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";

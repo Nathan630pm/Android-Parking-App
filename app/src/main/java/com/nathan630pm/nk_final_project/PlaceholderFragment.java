@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+//Created By: Nathan Kennedy, Student ID: 101333351
+
 
 public class PlaceholderFragment  extends BottomSheetDialogFragment {
     @Nullable
