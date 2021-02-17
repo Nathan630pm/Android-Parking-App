@@ -188,6 +188,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if(!didComplete){
             Toast.makeText(getApplicationContext(), "Make sure to enter all fields!", Toast.LENGTH_LONG).show();
+            btnSignIn.setEnabled(true);
         }
 
     }
