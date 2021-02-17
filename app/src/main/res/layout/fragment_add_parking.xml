@@ -53,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/building_code"
+                    android:inputType="text"
                     />
 
 
@@ -109,6 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/car_plate_number_2_8_characters"
+                    android:inputType="textCapCharacters"
                     />
 
 
@@ -141,6 +143,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/suit_number_2_5_characters"
+                    android:inputType="number"
                     />
 
 
@@ -180,6 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/parking_location_address"
+                    android:inputType="textPostalAddress"
                     />
 
 
