@@ -31,6 +31,8 @@ import java.util.concurrent.Executor;
 
 //Created By: Nathan Kennedy, Student ID: 101333351
 
+//**PLEASE NOTE, ALL ADDED THINGS AFTER DUE DATE ARE NOT FOR GRADING, I FOGOT TO CHANGE THE REPO. THE BIOMETRICS ARE JUST FOR MY OWN LEARNING.
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "LoginActivity";
