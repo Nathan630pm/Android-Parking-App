@@ -1,13 +1,18 @@
 package com.nathan630pm.nk_final_project.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import androidx.biometric.BiometricPrompt;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -22,6 +27,8 @@ import android.widget.Toast;
 import com.nathan630pm.nk_final_project.R;
 import com.nathan630pm.nk_final_project.viewmodels.UserViewModel;
 
+import java.util.concurrent.Executor;
+
 //Created By: Nathan Kennedy, Student ID: 101333351
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
@@ -31,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText ETEmail;
     private EditText ETPassword;
     private Button btnSignIn;
+    private Button btnBiometric;
     private ProgressBar progressBar;
     private UserViewModel userViewModel;
     private Context context;
@@ -39,6 +47,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private SwitchCompat swtRemember;
     private Boolean rememberMe = false;
+
+    private Executor executor;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
 
 
 
@@ -68,11 +80,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         this.btnSignIn = findViewById(R.id.btnSignIn);
         this.btnSignIn.setEnabled(true);
+
+        this.btnBiometric = findViewById(R.id.btnBiometric);
+        btnBiometric.setVisibility(View.GONE);
+
         this.progressBar = findViewById(R.id.progressBar);
 
         this.TVCreateAccount = findViewById(R.id.TVCreateAccount);
         this.TVCreateAccount.setOnClickListener(this);
         this.btnSignIn.setOnClickListener(this);
+        this.btnBiometric.setOnClickListener(this);
+
+
 
 
 
@@ -85,13 +104,55 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        editor.putString(context.getString(R.string.saved_email), savedEmail).apply();
 
         if(!savedEmail.equals("") && savedEmail != null) {
-            userViewModel.getUserRepository().savedUserGetUser(savedEmail);
 
-            Log.d(TAG, "onCreate: LOGGIN IN USER " + savedEmail);
-
+            ETEmail.setText(savedEmail);
+            btnBiometric.setVisibility(View.VISIBLE);
 
 
         }
+
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(LoginActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                new AlertDialog.Builder(LoginActivity.this)
+                        .setMessage(errString)
+                        .setTitle("Authentication Error")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+
+                userViewModel.getUserRepository().savedUserGetUser(savedEmail);
+
+                Log.d(TAG, "onCreate: LOGGING IN USER " + savedEmail);
+
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+
+
+
+
+            }
+        });
+
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Sign in with Biometrics")
+                .setSubtitle("Biometric Authentication")
+                .setNegativeButtonText("Cancel")
+                .build();
 
         this.userViewModel.getUserRepository().signInStatus.observe(this, new Observer<String>() {
             @Override
@@ -103,6 +164,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         editor = sharedPreferences.edit();
 //                    editor.clear();
                         editor.putString(context.getString(R.string.saved_email), ETEmail.getText().toString());
+                        editor.apply();
+                        editor.commit();
+                    }
+                    else {
+                        editor = sharedPreferences.edit();
+//                    editor.clear();
+                        editor.putString(context.getString(R.string.saved_email), null);
                         editor.apply();
                         editor.commit();
                     }
@@ -125,7 +193,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 else if(status.equals("FAILURE")){
                     btnSignIn.setEnabled(true);
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), "Login Failed.", Toast.LENGTH_LONG).show();
+                    new AlertDialog.Builder(LoginActivity.this)
+                            .setMessage("Email and/or password did not match any files on record.")
+                            .setTitle("Login Failed")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .show();
                 }
 
                 else if(status.equals("LOADING")){
@@ -159,6 +236,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     this.btnSignIn.setEnabled(false);
                     this.validateLogin();
 
+
+                    break;
+                }
+                case R.id.btnBiometric: {
+
+                    biometricPrompt.authenticate(promptInfo);
 
                     break;
                 }

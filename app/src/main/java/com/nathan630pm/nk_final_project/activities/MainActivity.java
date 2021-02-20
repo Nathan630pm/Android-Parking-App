@@ -90,11 +90,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.logout) {
 
-            editor = sharedPreferences.edit();
-//                    editor.clear();
-            editor.putString(context.getString(R.string.saved_email), "");
-            editor.apply();
-            editor.commit();
+//            editor = sharedPreferences.edit();
+////                    editor.clear();
+//            editor.putString(context.getString(R.string.saved_email), "");
+//            editor.apply();
+//            editor.commit();
 
             userViewModel.logout();
             userViewModel.getUserRepository().signInStatus.setValue("LOGOUT");

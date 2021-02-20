@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nathan630pm\'s Parking App</string>
+    <string name="app_name">Parking App</string>
 
     <string name="name">Name</string>
     <string name="email">Email</string>
@@ -7,7 +7,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="create_account">Create Account</string>
     <string name="sign_in">Sign In</string>
-    <string name="remember_me">Remember Me?</string>
+    <string name="remember_me">Remember Me &amp; Use Biometrics?</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="car_plate_number">Car Plate Number</string>
@@ -33,4 +33,5 @@
 
     <string name="preference_file_key">com.nathan630pm.nk_final_project.PREFERENCE_FILE_KEY</string>
     <string name="saved_email"></string>
+    <string name="sign_in_with_biometrics">Sign in with Biometrics</string>
 </resources>
